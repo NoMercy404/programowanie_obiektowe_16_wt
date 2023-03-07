@@ -5,29 +5,15 @@ import java.util.Locale;
 public class Segment {
     private Point p1;
     private Point p2;
-//" <line x1="20" y1="20" x2="80" y2="80" style="stroke:black" />"
-//    String test = String.format(Locale.ENGLISH, " %f ", 2);
-
-    //http://maxima.cesga.es/
-    //solve([y1=a*x1+b, ((x0-x1)^2 + (y0-y1)^2)=r*r],[x1,y1]);
 
     public Segment(Point p1, Point p2) {
         this.p1 = p1;
         this.p2 = p2;
-//        points = new Point[] {
-//                new Point(2,3),
-//                new Point(2,4)
-//        };
-//        points[1] = new Point(2,3);
     }
 
     public Point getP1() {
         return p1;
     }
-
-//    public void setP1(Point p1) {
-//        this.p1 = p1;
-//    }
 
     public Point getP2() {
         return p2;
@@ -45,5 +31,25 @@ public class Segment {
     public double getDistance(){
         double result = Math.sqrt(Math.pow(p1.x-p2.x, 2))+Math.sqrt(Math.pow(p1.y-p2.y, 2));
         return result;
+    }
+
+    public static Segment[] perpendicular(Segment line, Point point, double r) {
+        double a;
+        a = (line.p1.y - line.p2.y) / (line.p1.x - line.p2.x);
+        double b;
+        a=-1/a;
+        b=point.y-a*point.x;
+
+        double x0 = point.x;
+        double y0 = point.y;
+        //double r = line.distance();
+
+        double root = Math.sqrt(-y0*y0+(2*a*x0+2*b)*y0-a*a*x0*x0-2*a*b*x0+(a*a+1)*r*r-b*b);
+        double x1 = -(root-a*y0-x0+a*b)/(a*a+1);
+        double y1 = -(a*root-a*a*y0-a*x0-b)/(a*a+1);
+        double x2 = (root+a*y0+x0-a*b)/(a*a+1);
+        double y2 = (a*root+a*a*y0+a*x0+b)/(a*a+1);
+
+        return new Segment[]{new Segment(point, new Point(x1,y1)), new Segment(point, new Point(x2,y2))};
     }
 }
