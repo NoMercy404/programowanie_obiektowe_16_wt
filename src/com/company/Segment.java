@@ -2,11 +2,20 @@ package com.company;
 
 import java.util.Locale;
 
-public class Segment {
+public class Segment extends Shape {
     private Point p1;
     private Point p2;
 
+    public Segment(Point p1, Point p2, Style style) {
+        super(style);
+
+        this.p1 = p1;
+        this.p2 = p2;
+    }
+
     public Segment(Point p1, Point p2) {
+        super(new Style(null,null, null));
+
         this.p1 = p1;
         this.p2 = p2;
     }
@@ -23,7 +32,7 @@ public class Segment {
 //        this.p2 = p2;
 //    }
 
-    public String getSvg(){
+    public String toSvg(){
         String result = String.format(Locale.ENGLISH,"<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" style=\"stroke:black\" />",p1.x,p1.y,p2.x,p2.y);
         return result;
     }

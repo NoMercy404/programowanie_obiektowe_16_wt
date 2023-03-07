@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class SvgScene {
     int width = 0, height = 0;
     ArrayList<Polygon> polygons = new ArrayList<>();
+
     private void addPolygon(Polygon polygon){
         polygons.add(polygon);
         Point point = polygon.getMaxCords();

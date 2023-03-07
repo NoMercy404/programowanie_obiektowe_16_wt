@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.Locale;
 
-public class Polygon {
+public class Polygon extends Shape {
     private Point[] arr;
     private Style style;
     public Polygon(int count, Style style) {
