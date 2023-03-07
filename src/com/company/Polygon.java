@@ -26,4 +26,18 @@ public class Polygon {
 
         return String.format(Locale.ENGLISH,"<polygon points=\"%s\" style=\"%s\" />", pointsString, this.style.toSvg());
     }
+    public Point getMaxCords(){
+        Point maxPoint = new Point(0, 0);
+        for(Point point : arr){
+            if(point.x > maxPoint.x){
+            maxPoint.x = point.x;
+            }
+            if(point.y > maxPoint.y) {
+                maxPoint.y = point.y;
+            }
+
+            }
+
+    return maxPoint;
+    }
 }
