@@ -1,42 +1,31 @@
 package com.company;
 
 import java.io.FileWriter;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.Arrays;
 
 public class SvgScene {
-    int width = 0, height = 0;
-    ArrayList<Polygon> polygons = new ArrayList<>();
+    private Shape shapes[] = new Shape[0];
 
-    private void addPolygon(Polygon polygon){
-        polygons.add(polygon);
-        Point point = polygon.getMaxCords();
-        height = (int)Math.max(point.y, height);
-        width = (int)Math.max(point.x, width);
+    public void addShape(Shape poly) {
+        shapes = Arrays.copyOf(shapes, shapes.length + 1);
+        shapes[shapes.length - 1] = poly;
     }
 
-    public void save(String fileName){
+    public void saveHtml(String path) {
         try {
-            FileWriter fw
-                    = new FileWriter(fileName);
-            String html = " <html>\n" +
-        "<body>\n" +
-        "<svg width=\" "+ width +" \" height=\""+ height +"\">\n";
+            FileWriter file = new FileWriter(path);
+            file.write("<html>\n<body>\n");
+            file.write(String.format("<svg width=1000 height=1000>\n"));
+            for(Shape shape : shapes)
+                file.write("\t"+ shape.toSvg()+"\n");
+            file.write("</svg>\n</body>\n</html>\n");
+            file.close();
 
-        for(Polygon polygon : polygons){
-            html += polygon.toSvg();
-        }
 
-        html+= "</svg>\n" +
-        "\n" +
-        "</body>\n" +
-        "</html> ";
-
-            fw.close();
-        }
-        catch (Exception e) {
-            e.getStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
 }
-
