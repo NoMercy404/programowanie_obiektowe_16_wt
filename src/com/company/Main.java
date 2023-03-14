@@ -10,9 +10,18 @@ public class Main {
         poly = new SolidFillShapeDecorator(poly, "green");
         poly = new StrokeShapeDecorator(poly, "blue", "10");
         elipse = new SolidFillShapeDecorator(elipse , "red");
+
+        Shape translatedPoly =
+                new TransformationDecorator.Builder()
+                        .setTranslateVector(new Vec2(3.14 ,14.3))
+                        .setTranslateVector(new Vec2(4.14 ,14.3))
+                        .build(poly);
+
+
         SvgScene scene=new SvgScene();
         scene.addShape(poly);
         scene.addShape(elipse);
+        scene.addShape(translatedPoly);
 
         scene.saveHtml("scene.html");
     }
