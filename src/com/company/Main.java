@@ -84,7 +84,9 @@ public class Main {
             Person osoba = Person.buildPerson(path);
             Person osoba2 = Person.buildPerson("./test/test_same_osoby/Ewa Głaz.txt");
             System.out.println(osoba);
-        } catch (FileNotFoundException | AmbigiousPersonException e) {
+        } catch (FileNotFoundException error) {
+            error.printStackTrace();
+        } catch (AmbigiousPersonException | IncestException e) {
             e.printStackTrace();
         }
 
