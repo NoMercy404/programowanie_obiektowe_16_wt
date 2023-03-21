@@ -5,17 +5,16 @@ import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class Person implements Serializable {
     private String name;
     private LocalDate birth, death;
     private Person parents[] = new Person[2];
-
+    private static List<String> people = new ArrayList<String>();
     public Person(String name, LocalDate birth) {
         this(name, birth, null);
+        people.add(name);
     }
 
 
@@ -24,6 +23,7 @@ public class Person implements Serializable {
         this.birth = birth;
         this.death = death;
         try {
+            people.add(name);
             if (birth.isAfter(death)) {
                 throw new NegativeLifespanException(birth, death, "Possible time-space loophole.");
             }
@@ -34,7 +34,6 @@ public class Person implements Serializable {
         this(name, birth, death);
         parents[0] = parent1;
         parents[1] = parent2;
-
         checkForIncest();
     }
 
@@ -42,7 +41,7 @@ public class Person implements Serializable {
         this(name, birth, null, parent1, parent2);
     }
 
-    public static Person buildPerson(String path) throws FileNotFoundException {
+    public static Person buildPerson(String path) throws FileNotFoundException, AmbigiousPersonException {
         File file = new File(path);
         Scanner scanner = new Scanner(file);
         String name = scanner.nextLine();
@@ -50,6 +49,9 @@ public class Person implements Serializable {
         LocalDate death = null;
         if(scanner.hasNextLine()){
             death = LocalDate.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        }
+        if(people.contains(name)){
+            throw new AmbigiousPersonException(name);
         }
         return new Person(name,birth,death);
     }
