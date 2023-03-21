@@ -1,8 +1,12 @@
 package com.company;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Scanner;
 import java.util.Set;
 
 public class Person implements Serializable {
@@ -14,7 +18,7 @@ public class Person implements Serializable {
         this(name, birth, null);
     }
 
-    
+
     public Person(String name, LocalDate birth, LocalDate death) {
         this.name = name;
         this.birth = birth;
@@ -36,6 +40,18 @@ public class Person implements Serializable {
 
     public Person(String name, LocalDate birth, Person parent1, Person parent2) throws IncestException {
         this(name, birth, null, parent1, parent2);
+    }
+
+    public static Person buildPerson(String path) throws FileNotFoundException {
+        File file = new File(path);
+        Scanner scanner = new Scanner(file);
+        String name = scanner.nextLine();
+        LocalDate birth =  LocalDate.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        LocalDate death = null;
+        if(scanner.hasNextLine()){
+            death = LocalDate.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        }
+        return new Person(name,birth,death);
     }
 
     @Override
