@@ -14,6 +14,7 @@ public class Person implements Serializable {
         this(name, birth, null);
     }
 
+    
     public Person(String name, LocalDate birth, LocalDate death) {
         this.name = name;
         this.birth = birth;
